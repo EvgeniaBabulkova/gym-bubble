@@ -1,15 +1,15 @@
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: ' Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-  --col-text-primary: #edffe8;
+  --col-text-primary: #fafff8;
   --col-text-secondary: #edb337;
   --col-text-invert: #242424;
-  --col-text-details: #88877e;
+  --col-text-details: #8a9d86;
 
   --col-surface-primary: #121212;
   --col-surface-secondary: #292a26;
-  --col-surface-tertiary: #5e7a35;
-  --col-surface-invert: #edffe8;
+  --col-surface-tertiary: #324319;
+  --col-surface-invert: #fafff8;
 
   --col-graph-1: #edb337;
   --col-graph-2: #f2542d;
@@ -39,7 +39,7 @@
   --font-h3: 500 24px Tahoma;
   --font-h4: 500 20px Tahoma;
 
-  --font-body-1: 200 16px Tahoma;
+  --font-body-1: 400 16px Tahoma;
   --font-bodyStd: 200 14px Tahoma; /* standard */
   --font-body-3: 200 12px Tahoma;
 

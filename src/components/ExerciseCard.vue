@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Exercise } from '@/types/exercises'
+import type { Exercise } from '@/types/workouts.ts'
 import Chip from './Chip.vue'
 
 const { exercise } = defineProps<{
@@ -9,9 +9,9 @@ const { exercise } = defineProps<{
 
 <template>
   <div class="card">
-    <h4>{{ exercise.name }}</h4>
+    <p>{{ exercise.name }}</p>
     <ul>
-      <li v-for="group in exercise.muscleGroups"><Chip :text="group" /></li>
+      <li v-for="group in exercise.muscleGroups"><Chip :label="group" /></li>
     </ul>
   </div>
 </template>
@@ -24,6 +24,10 @@ const { exercise } = defineProps<{
   padding: var(--spacing-md);
   border-radius: var(--border-radius);
   gap: var(--spacing-md);
+}
+
+p {
+  font: var(--font-body-1);
 }
 
 ul {

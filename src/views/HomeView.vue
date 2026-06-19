@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import ExerciseCard from '@/components/ExerciseCard.vue'
+import WorkoutCard from '@/components/WorkoutCard.vue'
 import { exercises } from '@/data/exercises'
+import { workouts } from '@/data/workouts-mock'
 </script>
 
 <template>
   <div class="exercisesContainer">
-    <h2>Starting with the exercises list:</h2>
+    <h2>Workout mocks:</h2>
+    <ul class="workoutsList">
+      <li v-for="workout in workouts">
+        <WorkoutCard :workout="workout" />
+      </li>
+    </ul>
+    <h2>Exercises list:</h2>
     <ul class="exercisesList">
       <li v-for="exercise in exercises">
         <ExerciseCard :exercise="exercise" />
@@ -22,7 +30,8 @@ import { exercises } from '@/data/exercises'
   gap: var(--spacing-lg);
 }
 
-.exercisesList {
+.exercisesList,
+.workoutsList {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);

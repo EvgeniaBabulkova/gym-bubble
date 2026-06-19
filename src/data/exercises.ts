@@ -1,4 +1,4 @@
-import type { Exercise } from '@/types/exercises'
+import type { Exercise } from '@/types/workouts'
 
 export const exercises: Exercise[] = [
   {
