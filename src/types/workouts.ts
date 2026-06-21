@@ -5,16 +5,9 @@ export type Exercise = {
   description: string
 }
 
-// workout ---------------------
-
-export type WorkoutExercise = {
-  exerciseId: number // use this id to target the Exercise for the rest of the details many-to-many
-  order: number
-}
-
 export type Workout = {
   id: number
   name: string
   description?: string
-  exercises: WorkoutExercise[]
+  exercises: Exercise[]
 }

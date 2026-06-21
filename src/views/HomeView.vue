@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
 import ExerciseCard from '@/components/ExerciseCard.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
 import { exercises } from '@/data/exercises'
@@ -6,7 +7,8 @@ import { workouts } from '@/data/workouts-mock'
 </script>
 
 <template>
-  <div class="exercisesContainer">
+  <div class="mainContainer">
+    <CreateWorkoutForm />
     <h2>Workout mocks:</h2>
     <ul class="workoutsList">
       <li v-for="workout in workouts">
@@ -23,7 +25,7 @@ import { workouts } from '@/data/workouts-mock'
 </template>
 
 <style scoped>
-.exercisesContainer {
+.mainContainer {
   display: flex;
   flex-direction: column;
   padding: 50px;

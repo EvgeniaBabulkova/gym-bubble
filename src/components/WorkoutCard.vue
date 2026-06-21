@@ -7,15 +7,6 @@ import Chip from './Chip.vue'
 const { workout } = defineProps<{
   workout: Workout
 }>()
-
-// some returns true/false and for each exercise the filter gets an answer weather to keep it
-const workoutExercise = computed(() => {
-  console.log('all exercises:', exercises)
-  console.log('workout exercises:', workout.exercises)
-  return exercises.filter((exercise) =>
-    workout.exercises.some((workoutExercise) => workoutExercise.exerciseId === exercise.id),
-  )
-})
 </script>
 
 <template>
@@ -24,7 +15,9 @@ const workoutExercise = computed(() => {
     <p>{{ workout.description }}</p>
 
     <ul>
-      <li v-for="exercise in workoutExercise" key="exercise.id"><Chip :label="exercise.name" /></li>
+      <li v-for="exercise in workout.exercises" key="exercise.id">
+        <Chip :label="exercise.name" />
+      </li>
     </ul>
   </div>
 </template>
@@ -33,7 +26,7 @@ const workoutExercise = computed(() => {
 .card {
   display: flex;
   flex-direction: column;
-  background-color: var(--col-surface-secondary);
+  background-color: var(--col-surface-tertiary);
   padding: var(--spacing-md);
   border-radius: var(--border-radius);
   gap: var(--spacing-md);

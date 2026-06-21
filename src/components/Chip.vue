@@ -13,7 +13,7 @@ div {
   display: flex;
   width: fit-content;
   justify-content: center;
-  background-color: var(--col-surface-tertiary);
+  background-color: var(--col-graph);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius);
   font: var(--font-chip);
