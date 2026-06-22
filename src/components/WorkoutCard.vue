@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { exercises } from '@/data/exercises'
-import type { Exercise, Workout } from '@/types/workouts'
-import { computed } from 'vue'
-import Chip from './Chip.vue'
+import type { Workout } from '@/types/workouts'
 
 const { workout } = defineProps<{
   workout: Workout
@@ -10,13 +7,13 @@ const { workout } = defineProps<{
 </script>
 
 <template>
-  <div class="card">
+  <RouterLink class="card" :to="{ name: 'workout-details', params: { workoutId: workout.id } }">
     <h4>{{ workout.name }}</h4>
     <div class="workoutDetails">
       <p>{{ workout.description }}</p>
       <p>{{ workout.exerciseIds.length }} exercises</p>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>

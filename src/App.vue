@@ -7,6 +7,8 @@ import HelloMessage from './components/HelloMessage.vue'
   <!-- todo: Extract Navbar into component -->
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
+    <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
+
     <HelloMessage msg="yoo" />
     <nav>
       <RouterLink to="/">Home</RouterLink>

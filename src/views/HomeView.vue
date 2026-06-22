@@ -3,6 +3,7 @@ import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
 import ExerciseCard from '@/components/ExerciseCard.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
 import { exercises } from '@/data/exercises'
+import { workoutss } from '@/data/workouts'
 import { workoutsMock } from '@/data/workouts-mock'
 import type { CreateWorkoutInput, Workout } from '@/types/workouts'
 import { ref } from 'vue'
@@ -16,8 +17,6 @@ function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
 
   workoutss.value.push(newWorkout)
 }
-
-const workoutss = ref<Workout[]>(workoutsMock)
 </script>
 
 <template>
