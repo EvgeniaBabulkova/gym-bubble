@@ -4,7 +4,7 @@ import HelloMessage from './components/HelloMessage.vue'
 </script>
 
 <template>
-  <!-- this is sort of the navbar -->
+  <!-- todo: Extract Navbar into component -->
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
     <HelloMessage msg="yoo" />
