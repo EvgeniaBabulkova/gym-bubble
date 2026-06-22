@@ -12,13 +12,10 @@ const { workout } = defineProps<{
 <template>
   <div class="card">
     <h4>{{ workout.name }}</h4>
-    <p>{{ workout.description }}</p>
-
-    <ul>
-      <li v-for="exercise in workout.exercises" key="exercise.id">
-        <Chip :label="exercise.name" />
-      </li>
-    </ul>
+    <div class="workoutDetails">
+      <p>{{ workout.description }}</p>
+      <p>{{ workout.exerciseIds.length }} exercises</p>
+    </div>
   </div>
 </template>
 
@@ -35,5 +32,10 @@ const { workout } = defineProps<{
 ul {
   display: flex;
   gap: var(--spacing-xs);
+}
+
+.workoutDetails {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

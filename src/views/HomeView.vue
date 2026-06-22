@@ -3,19 +3,33 @@ import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
 import ExerciseCard from '@/components/ExerciseCard.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
 import { exercises } from '@/data/exercises'
-import { workouts } from '@/data/workouts-mock'
+import { workoutsMock } from '@/data/workouts-mock'
+import type { CreateWorkoutInput, Workout } from '@/types/workouts'
+import { ref } from 'vue'
+
+function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
+  console.log(workoutInput)
+  const newWorkout: Workout = {
+    id: Date.now(), // temporary frontend id for now
+    ...workoutInput,
+  }
+
+  workoutss.value.push(newWorkout)
+}
+
+const workoutss = ref<Workout[]>(workoutsMock)
 </script>
 
 <template>
   <div class="mainContainer">
-    <CreateWorkoutForm />
-    <h2>Workout mocks:</h2>
+    <CreateWorkoutForm @create-workout="handleCreateWorkout" />
+    <h2>Workouts:</h2>
     <ul class="workoutsList">
-      <li v-for="workout in workouts">
+      <li v-for="workout in workoutss">
         <WorkoutCard :workout="workout" />
       </li>
     </ul>
-    <h2>Exercises list:</h2>
+    <h2>Exercises:</h2>
     <ul class="exercisesList">
       <li v-for="exercise in exercises">
         <ExerciseCard :exercise="exercise" />
