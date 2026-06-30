@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '@/components/Button.vue'
 import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
 import ExerciseCard from '@/components/ExerciseCard.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
@@ -20,6 +21,8 @@ function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
 </script>
 
 <template>
+  <Button>Lalala</Button>
+
   <div class="mainContainer">
     <CreateWorkoutForm @create-workout="handleCreateWorkout" />
     <h2>Workouts:</h2>

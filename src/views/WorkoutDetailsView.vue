@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { exercises } from '@/data/exercises'
 import { workoutss } from '@/data/workouts'
-import type { Workout } from '@/types/workouts'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
