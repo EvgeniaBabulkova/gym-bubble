@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Exercise } from '@/types/workouts.ts'
-import Chip from './Chip.vue'
+import Chip from './UI/Chip.vue'
 
 const { exercise } = defineProps<{
   exercise: Exercise

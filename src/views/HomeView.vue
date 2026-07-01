@@ -21,8 +21,6 @@ function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
 </script>
 
 <template>
-  <Button>Lalala</Button>
-
   <div class="mainContainer">
     <CreateWorkoutForm @create-workout="handleCreateWorkout" />
     <h2>Workouts:</h2>
