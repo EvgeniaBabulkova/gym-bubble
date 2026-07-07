@@ -1,14 +1,14 @@
 <script setup lang="ts">
 defineProps<{
   label: string
-  errorText?: string // todo: use this for the errors in the form
+  errorText?: string // todo: input validation
   modelValue: string
 }>()
 
 defineOptions({ inheritAttrs: false })
 
 // the new way for v-model: (then using this in the input)
-// const model = defineModel<string>(), {default: ''}
+// const model = defineModel<string>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -16,7 +16,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <label>
+  <label class="field">
     <span>{{ label }}</span>
     <input
       type="text"
@@ -28,15 +28,12 @@ const emit = defineEmits<{
   </label>
 </template>
 
-<style scoped>
-label {
+<style>
+/* also for textarea */
+.field {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
   width: 200px;
-}
-
-input::placeholder {
-  font: var(--font-bodyStd);
 }
 </style>

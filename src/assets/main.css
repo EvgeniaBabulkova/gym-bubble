@@ -7,6 +7,17 @@
   min-height: 100vh;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  color: var(--col-text-primary);
+  background: var(--col-surface-primary);
+}
+
 h1 {
   font: var(--font-h1);
 }
@@ -34,4 +45,9 @@ a {
 button {
   background: none;
   border: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font: var(--font-bodyStd);
 }

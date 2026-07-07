@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import { exercises } from '@/data/exercises'
-import { workoutss } from '@/data/workouts'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import Button from '@/components/UI/Button.vue'
+import { useWorkoutById } from '@/composables/useWoroutById'
+import { useRoute, useRouter } from 'vue-router'
 
-// get the route - get the param of id from it - use that id to get the workout data
 const route = useRoute()
-const workoutId = computed(() => Number(route.params.workoutId))
+const router = useRouter()
+const workoutId = Number(route.params.workoutId)
+const { workout, workoutExercises } = useWorkoutById(workoutId)
 
-const workout = computed(() => workoutss.value.find((workout) => workout.id === workoutId.value))
-// keep only exercises whose ids live in the current workout
-const workoutExercises = computed(() =>
-  exercises.filter((exercise) => workout.value?.exerciseIds.includes(exercise.id)),
-)
+function startWorkoutSession() {
+  router.push({
+    name: 'workout-session',
+    params: {
+      workoutId: workoutId,
+    },
+  })
+}
 </script>
 
 <template>
@@ -20,8 +23,9 @@ const workoutExercises = computed(() =>
     <h3>{{ workout.name }}</h3>
     <p>{{ workout.description }}</p>
     <ul>
-      <li v-for="exercise in workoutExercises">{{ exercise.name }}</li>
+      <li v-for="exercise in workoutExercises" :key="exercise.id">{{ exercise.name }}</li>
     </ul>
+    <Button @click="startWorkoutSession">Start workoutt!!</Button>
   </section>
 
   <p v-else>This workout couldd not be found!</p>

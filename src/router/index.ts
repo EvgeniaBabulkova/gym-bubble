@@ -12,13 +12,18 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // lazy loading
+      // route level code-splitting
       component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/workouts/:workoutId',
       name: 'workout-details',
       component: () => import('../views/WorkoutDetailsView.vue'),
+    },
+    {
+      path: '/workouts/:workoutId/session',
+      name: 'workout-session',
+      component: () => import('../views/WorkoutSessionView.vue'),
     },
   ],
 })

@@ -23,10 +23,11 @@ function onWorkoutSubmit() {
   // 2. pass it in an emit
   // 3. clear the inputs
 
-  if (workoutForm.name && workoutForm.exerciseIds.length > 0) {
+  if (workoutForm.name.trim() && workoutForm.exerciseIds.length > 0) {
+    error.value = ''
     const newWorkout = {
-      name: workoutForm.name,
-      description: workoutForm.description,
+      name: workoutForm.name.trim(),
+      description: workoutForm.description.trim(),
       exerciseIds: workoutForm.exerciseIds,
     }
     emit('createWorkout', newWorkout)
@@ -45,12 +46,13 @@ function onWorkoutSubmit() {
 
     <InputFIeld label="Name" placeholder="E.g. Upper body day" v-model.trim="workoutForm.name" />
     <TextArea
-      label="Review"
+      label="Description"
       placeholder="E.g. Focus on back and shoulders"
       v-model="workoutForm.description"
+      :rows="5"
     />
 
-    <label for="exercises">Choose exercises:</label>
+    <label for="exercises">Choose exercises</label>
     <label v-for="exercise in exercises" :key="exercise.id">
       <input type="checkbox" v-model="workoutForm.exerciseIds" :value="exercise.id" />
       {{ exercise.name }}
@@ -78,9 +80,5 @@ p {
   flex-direction: column;
   width: 400px;
   gap: var(--spacing-md);
-}
-
-textarea::placeholder {
-  font: var(--font-bodyStd);
 }
 </style>

@@ -48,14 +48,3 @@
   --font-label: 300 16px Tahoma;
   --font-chip: 300 14px Tahoma;
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
-}
-
-body {
-  color: var(--col-text-primary);
-  background: var(--col-surface-primary);
-}
