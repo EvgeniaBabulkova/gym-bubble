@@ -45,7 +45,7 @@ function handleCreateWorkoutSession() {
   workoutSessions.value.push(newWorkoutSession)
 
   console.log(workoutSessions.value)
-  router.push('history')
+  router.push({ name: 'history' })
 }
 </script>
 

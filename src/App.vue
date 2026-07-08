@@ -12,7 +12,7 @@ import HelloMessage from './components/HelloMessage.vue'
     <HelloMessage msg="yoo" />
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/history">History</RouterLink>
     </nav>
   </header>
   <!-- this is where the rest of the components are rendered, it's like Outlet: -->
