@@ -21,6 +21,7 @@ export type CreateWorkoutInput = {
 export type WorkoutSession = {
   id: number
   workoutId: number
+  workoutName: string
   performedAt: string
   exercises: {
     exerciseId: number

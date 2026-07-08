@@ -5,6 +5,7 @@ const workoutSessionsMock: WorkoutSession[] = [
   {
     id: 1,
     workoutId: 1,
+    workoutName: 'Lower Body',
     performedAt: '2026-07-08T14:37:21.123Z',
     exercises: [
       {

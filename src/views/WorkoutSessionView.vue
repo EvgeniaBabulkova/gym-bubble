@@ -4,7 +4,7 @@ import TextArea from '@/components/UI/TextArea.vue'
 import { useWorkoutById } from '@/composables/useWorkoutById'
 import { workoutSessions } from '@/data/workout-sessions'
 import type { WorkoutSession } from '@/types/workouts'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -39,6 +39,7 @@ function handleCreateWorkoutSession() {
   const newWorkoutSession: WorkoutSession = {
     id: Date.now(),
     workoutId: workoutId,
+    workoutName: workout.value?.name!,
     performedAt: new Date().toISOString(),
     exercises: performedExercises,
   }
