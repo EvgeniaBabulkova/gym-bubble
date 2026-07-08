@@ -22,6 +22,7 @@ button {
 .buttonSecondary {
   background-color: var(--col-graph);
   color: var(--col-text-primary);
+  font: var(--font-bodyStd);
 }
 
 button:hover {

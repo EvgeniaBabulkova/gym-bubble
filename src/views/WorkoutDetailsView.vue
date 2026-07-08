@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Button from '@/components/UI/Button.vue'
-import { useWorkoutById } from '@/composables/useWoroutById'
+import { useWorkoutById } from '@/composables/useWorkoutById'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()

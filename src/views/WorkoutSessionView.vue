@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import Button from '@/components/UI/Button.vue'
 import TextArea from '@/components/UI/TextArea.vue'
-import { useWorkoutById } from '@/composables/useWoroutById'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useWorkoutById } from '@/composables/useWorkoutById'
+import { workoutSessions } from '@/data/workout-sessions'
+import type { WorkoutSession } from '@/types/workouts'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const workoutId = Number(route.params.workoutId)
 
 const { workout, workoutExercises } = useWorkoutById(workoutId)
@@ -21,11 +24,33 @@ function makeExerciseActive(exerciseId: number) {
   }
 }
 
-function finishWorkoutSession() {}
+function handleCreateWorkoutSession() {
+  // todo: are u sure u want to finish this workout?
+  // todo: yes -> congrats popup with summary -> history page
+
+  const performedExercises = workoutExercises.value
+    .filter((exercise) => exerciseSetDrafts.value[exercise.id]?.trim())
+    .map((exercise) => ({
+      exerciseId: exercise.id,
+      exerciseName: exercise.name,
+      setNotes: exerciseSetDrafts.value[exercise.id]!,
+    }))
+
+  const newWorkoutSession: WorkoutSession = {
+    id: Date.now(),
+    workoutId: workoutId,
+    performedAt: new Date().toISOString(),
+    exercises: performedExercises,
+  }
+  workoutSessions.value.push(newWorkoutSession)
+
+  console.log(workoutSessions.value)
+  router.push('history')
+}
 </script>
 
 <template>
-  <form v-if="workout" @submit.prevent="finishWorkoutSession">
+  <form v-if="workout" @submit.prevent="handleCreateWorkoutSession">
     <h2>You're doing {{ workout.name }}</h2>
     <ul>
       <li v-for="exercise in workoutExercises" :key="exercise.id">
@@ -36,7 +61,9 @@ function finishWorkoutSession() {}
           label="Sets and reps"
           :rows="2"
         />
-        <Button v-else type="button" @click="makeExerciseActive(exercise.id)">Add set data</Button>
+        <Button variant="secondary" v-else type="button" @click="makeExerciseActive(exercise.id)"
+          >Add set data</Button
+        >
       </li>
     </ul>
     <Button type="submit">Finish workout</Button>

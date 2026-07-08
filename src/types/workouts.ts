@@ -18,13 +18,13 @@ export type CreateWorkoutInput = {
   exerciseIds: number[] // only ids
 }
 
-//for later
-type WorkoutHistory = {
-  id: string
-  workoutId: string
+export type WorkoutSession = {
+  id: number
+  workoutId: number
   performedAt: string
-  repsNotes: {
+  exercises: {
     exerciseId: number
-    note: string
-  }
+    exerciseName: string
+    setNotes: string
+  }[]
 }
