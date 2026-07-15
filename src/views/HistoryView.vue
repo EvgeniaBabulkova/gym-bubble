@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import WorkoutSessionCard from '@/components/WorkoutSessionCard.vue'
-import { workoutSessions } from '@/data/workout-sessions'
+import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
+
+const workoutSessionsStore = useWorkoutSessionsStore()
+
+// onMounted(() => { // do the same in analytics page
+//   workoutSessionsStore.fetchWorkoutSessions()
+// })
 </script>
 
 <template>
   <div>
     <h1>This is the history pageeeee</h1>
     <ul>
-      <li v-for="workoutSession in workoutSessions" :key="workoutSession.id">
+      <li v-for="workoutSession in workoutSessionsStore.workoutSessions" :key="workoutSession.id">
         <WorkoutSessionCard :workout-session="workoutSession" />
       </li>
     </ul>

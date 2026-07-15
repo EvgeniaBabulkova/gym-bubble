@@ -3,6 +3,7 @@ import Button from '@/components/UI/Button.vue'
 import TextArea from '@/components/UI/TextArea.vue'
 import { useWorkoutById } from '@/composables/useWorkoutById'
 import { workoutSessions } from '@/data/workout-sessions'
+import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
 import type { WorkoutSession } from '@/types/workouts'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -14,6 +15,7 @@ const workoutId = Number(route.params.workoutId)
 const { workout, workoutExercises } = useWorkoutById(workoutId)
 const activeExercises = ref<number[]>([])
 const exerciseSetDrafts = ref<Record<number, string>>({})
+const WorkoutSessionsStore = useWorkoutSessionsStore()
 
 // close empty exercises, then make exercise active
 function makeExerciseActive(exerciseId: number) {
@@ -43,7 +45,7 @@ function handleCreateWorkoutSession() {
     performedAt: new Date().toISOString(),
     exercises: performedExercises,
   }
-  workoutSessions.value.push(newWorkoutSession)
+  WorkoutSessionsStore.addWorkoutSession(newWorkoutSession)
 
   console.log(workoutSessions.value)
   router.push({ name: 'history' })
