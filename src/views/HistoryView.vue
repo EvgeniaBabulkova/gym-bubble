@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import WorkoutSessionCard from '@/components/WorkoutSessionCard.vue'
 import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
+import { onMounted } from 'vue'
 
 const workoutSessionsStore = useWorkoutSessionsStore()
 
-// onMounted(() => { // do the same in analytics page
-//   workoutSessionsStore.fetchWorkoutSessions()
-// })
+onMounted(() => {
+  workoutSessionsStore.fetchWorkoutSessions()
+})
 </script>
 
 <template>

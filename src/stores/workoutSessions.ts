@@ -1,14 +1,14 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { WorkoutSession } from '@/types/workouts'
+import { getWorkoutSessions } from '@/services/workoutSessionService'
 
-// setup store
 export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
   // state
-  const workoutSessions = ref<WorkoutSession[]>([]) // workoutSessionsMock - add default
-  //   const isLoading = ref(false)
-  // const loadingError = ref<string | null>(null)
-  // const hasLoaded = ref(false)
+  const workoutSessions = ref<WorkoutSession[]>([])
+  const isLoading = ref(false)
+  const loadingError = ref<string | null>(null)
+  const hasLoaded = ref(false)
 
   // getters
   const totalSessionCount = computed(() => workoutSessions.value.length) // todo: make it per month
@@ -30,35 +30,24 @@ export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
 
   // todo: explore integrating tanstack query
 
-  //   async function fetchWorkoutSessions() {
-  //   if (hasLoaded.value || isLoading.value) { return } // this check prevents fetches if the data has already been fetched
-  //
-  //   isLoading.value = true
-  //   loadingError.value = null
+  async function fetchWorkoutSessions() {
+    if (hasLoaded.value || isLoading.value) {
+      return
+    } // this check prevents fetches if the data has already been fetched
 
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('workout_sessions')
-  //       .select('*')
-  //       .order('performed_at', {
-  //         ascending: false,
-  //       })
+    isLoading.value = true
+    loadingError.value = null
 
-  //     if (error) {
-  //       throw error
-  //     }
-
-  //     workoutSessions.value = data ?? []
-  //     hasLoaded.value = true
-  //   } catch (error) {
-  //     loadingError.value =
-  //       error instanceof Error
-  //         ? error.message
-  //         : 'Workout sessions could not be loaded'
-  //   } finally {
-  //     isLoading.value = false
-  //   }
-  // }
+    try {
+      workoutSessions.value = await getWorkoutSessions()
+      hasLoaded.value = true
+    } catch (error) {
+      loadingError.value =
+        error instanceof Error ? error.message : 'Workout sessions could not be loadeeed'
+    } finally {
+      isLoading.value = false
+    }
+  }
 
   return {
     workoutSessions,
@@ -66,5 +55,6 @@ export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
     addWorkoutSession,
     removeWorkoutSession,
     getSessionsByWorkoutId,
+    fetchWorkoutSessions,
   }
 })
