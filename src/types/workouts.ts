@@ -1,10 +1,23 @@
-// workouts -------------------------------------------s
+// workouts -------------------------------------------
+
+type MovementType = 'Compound' | 'Accessory' | 'Isolation'
+
+type Equipment =
+  | 'Barbell'
+  | 'Dumbbells'
+  | 'Cable'
+  | 'Machine'
+  | 'Bodyweight'
+  | 'Resistance Band'
+  | 'Smith Machine'
 
 export type Exercise = {
   id: number
   name: string
   muscleGroups: string[]
   description: string
+  // movementType: MovementType
+  // equipment: Equipment
 }
 
 export type Workout = {
