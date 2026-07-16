@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import type { CreateWorkoutSessionInput, WorkoutSession } from '@/types/workouts'
 
 export async function getWorkoutSessions() {
   const { data, error } = await supabase
@@ -27,4 +28,39 @@ export async function getWorkoutSessions() {
       })),
     })) ?? []
   )
+}
+
+export async function createWorkoutSession(
+  workoutSessionInput: CreateWorkoutSessionInput,
+): Promise<WorkoutSession> {
+  const { data: createdSession, error: sessionError } = await supabase
+    .from('workout_sessions')
+    .insert({
+      user_id: 1,
+      workout_id: workoutSessionInput.workoutId,
+      workout_name: workoutSessionInput.workoutName,
+      performed_at: workoutSessionInput.performedAt,
+    })
+    .select()
+    .single()
+
+  if (sessionError) throw sessionError
+
+  const performedExercises = workoutSessionInput.exercises.map((performedExercise) => ({
+    workout_session_id: createdSession.workout_session_id,
+    exercise_id: performedExercise.exerciseId,
+    exercise_name: performedExercise.exerciseName,
+    set_info: performedExercise.setInfo,
+  }))
+
+  const { error: performedExercisesError } = await supabase
+    .from('performed_exercises')
+    .insert(performedExercises)
+
+  if (performedExercisesError) throw performedExercisesError
+
+  return {
+    id: createdSession.workout_session_id,
+    ...workoutSessionInput,
+  }
 }

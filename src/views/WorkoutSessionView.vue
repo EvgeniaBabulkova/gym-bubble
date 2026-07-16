@@ -4,7 +4,7 @@ import TextArea from '@/components/UI/TextArea.vue'
 import { workoutSessions } from '@/data/workout-sessions'
 import { useWorkoutStore } from '@/stores/workouts'
 import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
-import type { WorkoutSession } from '@/types/workouts'
+import type { CreateWorkoutSessionInput, WorkoutSession } from '@/types/workouts'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -28,7 +28,7 @@ function makeExerciseActive(exerciseId: number) {
   }
 }
 
-function handleCreateWorkoutSession() {
+async function handleCreateWorkoutSession() {
   // todo: are u sure u want to finish this workout?
   // todo: yes -> congrats popup with summary -> history page
 
@@ -38,20 +38,18 @@ function handleCreateWorkoutSession() {
     .map((workoutExercise) => ({
       exerciseId: workoutExercise.id,
       exerciseName: workoutExercise.name,
-      setInfo: exerciseSetDrafts.value[workoutExercise.id]!,
+      setInfo: exerciseSetDrafts.value[workoutExercise.id]!.trim(),
     }))
 
-  const newWorkoutSession: WorkoutSession = {
-    id: Date.now(),
-    workoutId: workoutId,
+  const newWorkoutSession: CreateWorkoutSessionInput = {
+    workoutId,
     workoutName: workout.value?.name,
     performedAt: new Date().toISOString(),
     exercises: performedExercises,
   }
-  workoutSessionsStore.addWorkoutSession(newWorkoutSession)
-
-  console.log(workoutSessions.value)
-  router.push({ name: 'history' })
+  const createdWorkoutSession =
+    await workoutSessionsStore.createNewWorkoutSession(newWorkoutSession)
+  if (createdWorkoutSession) router.push({ name: 'history' })
 }
 </script>
 

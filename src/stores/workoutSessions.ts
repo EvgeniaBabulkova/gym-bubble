@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { WorkoutSession } from '@/types/workouts'
-import { getWorkoutSessions } from '@/services/workoutSessionService'
+import type { CreateWorkoutSessionInput, WorkoutSession } from '@/types/workouts'
+import { createWorkoutSession, getWorkoutSessions } from '@/services/workoutSessionService'
 import { useLoadingState } from '@/composables/useLoadingState'
 
 // todo: explore integrating tanstack query
@@ -30,8 +30,21 @@ export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
   }
 
   // createWorkoutSession
-  function addWorkoutSession(workoutSession: WorkoutSession) {
-    workoutSessions.value.push(workoutSession)
+  async function createNewWorkoutSession(workoutSessionInput: CreateWorkoutSessionInput) {
+    isLoading.value = true
+    error.value = null
+
+    try {
+      const createdWorkoutSession = await createWorkoutSession(workoutSessionInput)
+      workoutSessions.value.unshift(createdWorkoutSession)
+      return createdWorkoutSession
+    } catch (postError) {
+      error.value =
+        postError instanceof Error ? postError.message : 'Failed to create workout session.'
+      return null
+    } finally {
+      isLoading.value = false
+    }
   }
 
   // removeWorkoutSession
@@ -50,7 +63,7 @@ export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
     fetchWorkoutSessions,
     workoutSessions,
     totalSessionCount,
-    addWorkoutSession,
+    createNewWorkoutSession,
     removeWorkoutSession,
     getSessionsByWorkoutId,
   }

@@ -16,12 +16,7 @@ onMounted(() => {
 })
 
 function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
-  // console.log(workoutInput)
-  // const newWorkout: Workout = {
-  //   id: Date.now(), // temporary frontend id for now
-  //   ...workoutInput,
-  // }
-  // workoutss.value.push(newWorkout)
+  workoutStore.createNewWorkout(workoutInput)
 }
 </script>
 

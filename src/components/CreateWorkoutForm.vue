@@ -37,6 +37,7 @@ function onWorkoutSubmit() {
       exerciseIds: workoutForm.exerciseIds,
     }
     emit('createWorkout', newWorkout)
+
     workoutForm.name = ''
     workoutForm.description = ''
     workoutForm.exerciseIds = []
