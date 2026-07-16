@@ -13,6 +13,7 @@ export async function getWorkoutSessions() {
   return (
     // since my backend is supabase instead of transforming
     // my data there, i do it here in the frontend...
+    // todo: PostgreSQL Views Strategy
     data?.map((session) => ({
       id: session.workout_session_id,
       userId: session.user_id,
@@ -20,7 +21,7 @@ export async function getWorkoutSessions() {
       workoutName: session.workout_name,
       performedAt: session.performed_at,
 
-      // i'll populate this later
+      // i'll populate this later..
       exercises: [],
     })) ?? []
   )

@@ -11,20 +11,42 @@ type Equipment =
   | 'Resistance Band'
   | 'Smith Machine'
 
+export type MuscleGroup =
+  | 'Chest'
+  | 'Front Shoulders'
+  | 'Side Shoulders'
+  | 'Rear Shoulders'
+  | 'Triceps'
+  | 'Biceps'
+  | 'Forearms'
+  | 'Lats'
+  | 'Upper Back'
+  | 'Lower Back'
+  | 'Abs'
+  | 'Glutes'
+  | 'Quadriceps'
+  | 'Hamstrings'
+  | 'Calves'
+
 export type Exercise = {
   id: number
   name: string
-  muscleGroups: string[]
+  muscleGroups: MuscleGroup[]
   description: string
   // movementType: MovementType
   // equipment: Equipment
+}
+
+type WorkoutExrcise = {
+  exercise: Exercise
+  orderIndex: number
 }
 
 export type Workout = {
   id: number
   name: string
   description?: string
-  exerciseIds: number[]
+  exercises: WorkoutExrcise[]
 }
 
 export type CreateWorkoutInput = {

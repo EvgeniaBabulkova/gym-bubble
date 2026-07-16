@@ -11,7 +11,7 @@ const { workout } = defineProps<{
     <h4>{{ workout.name }}</h4>
     <div class="workoutDetails">
       <p>{{ workout.description }}</p>
-      <p>{{ workout.exerciseIds.length }} exercises</p>
+      <p>{{ workout.exercises.length }} exercises</p>
     </div>
   </RouterLink>
 </template>
