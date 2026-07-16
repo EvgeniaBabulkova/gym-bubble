@@ -2,59 +2,56 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { WorkoutSession } from '@/types/workouts'
 import { getWorkoutSessions } from '@/services/workoutSessionService'
+import { useLoadingState } from '@/composables/useLoadingState'
 
+// todo: explore integrating tanstack query
 export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
-  // state
   const workoutSessions = ref<WorkoutSession[]>([])
-  const isLoading = ref(false)
-  const loadingError = ref<string | null>(null)
-  const hasLoaded = ref(false)
+  const { isLoading, hasLoaded, error } = useLoadingState()
 
-  // getters
   const totalSessionCount = computed(() => workoutSessions.value.length) // todo: make it per month
 
-  // actions
+  // fetchWorkoutSessions
+  async function fetchWorkoutSessions() {
+    if (hasLoaded.value || isLoading.value) {
+      return
+    }
+    isLoading.value = true
+    error.value = null
+    try {
+      workoutSessions.value = await getWorkoutSessions()
+      hasLoaded.value = true
+    } catch (fetchError) {
+      error.value =
+        fetchError instanceof Error ? fetchError.message : 'Workout sessions could not be loadeeed'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  // createWorkoutSession
   function addWorkoutSession(workoutSession: WorkoutSession) {
     workoutSessions.value.push(workoutSession)
   }
 
+  // removeWorkoutSession
   function removeWorkoutSession(workoutSessionId: number) {
     workoutSessions.value = workoutSessions.value.filter(
       (workoutSession) => workoutSession.id !== workoutSessionId,
     )
   }
 
+  // getSessionsByWorkoutId
   function getSessionsByWorkoutId(workoutId: number) {
     return workoutSessions.value.filter((workoutSession) => workoutSession.workoutId === workoutId)
   }
 
-  // todo: explore integrating tanstack query
-
-  async function fetchWorkoutSessions() {
-    if (hasLoaded.value || isLoading.value) {
-      return
-    } // this check prevents fetches if the data has already been fetched
-
-    isLoading.value = true
-    loadingError.value = null
-
-    try {
-      workoutSessions.value = await getWorkoutSessions()
-      hasLoaded.value = true
-    } catch (error) {
-      loadingError.value =
-        error instanceof Error ? error.message : 'Workout sessions could not be loadeeed'
-    } finally {
-      isLoading.value = false
-    }
-  }
-
   return {
+    fetchWorkoutSessions,
     workoutSessions,
     totalSessionCount,
     addWorkoutSession,
     removeWorkoutSession,
     getSessionsByWorkoutId,
-    fetchWorkoutSessions,
   }
 })

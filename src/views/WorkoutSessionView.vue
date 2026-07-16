@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import Button from '@/components/UI/Button.vue'
 import TextArea from '@/components/UI/TextArea.vue'
-import { useWorkoutById } from '@/composables/useWorkoutById'
 import { workoutSessions } from '@/data/workout-sessions'
+import { useWorkoutStore } from '@/stores/workouts'
 import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
 import type { WorkoutSession } from '@/types/workouts'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 const workoutId = Number(route.params.workoutId)
+const workoutStore = useWorkoutStore()
+onMounted(() => workoutStore.fetchWorkouts())
+const workout = computed(() => workoutStore.getWorkoutById(workoutId))
 
-const { workout, workoutExercises } = useWorkoutById(workoutId)
 const activeExercises = ref<number[]>([])
 const exerciseSetDrafts = ref<Record<number, string>>({})
-const WorkoutSessionsStore = useWorkoutSessionsStore()
+const workoutSessionsStore = useWorkoutSessionsStore()
 
 // close empty exercises, then make exercise active
 function makeExerciseActive(exerciseId: number) {
@@ -30,22 +32,23 @@ function handleCreateWorkoutSession() {
   // todo: are u sure u want to finish this workout?
   // todo: yes -> congrats popup with summary -> history page
 
-  const performedExercises = workoutExercises.value
-    .filter((exercise) => exerciseSetDrafts.value[exercise.id]?.trim())
-    .map((exercise) => ({
-      exerciseId: exercise.id,
-      exerciseName: exercise.name,
-      setNotes: exerciseSetDrafts.value[exercise.id]!,
+  if (!workout.value) return
+  const performedExercises = workout.value.workoutExercises
+    .filter((workoutExercise) => exerciseSetDrafts.value[workoutExercise.id]?.trim())
+    .map((workoutExercise) => ({
+      exerciseId: workoutExercise.id,
+      exerciseName: workoutExercise.name,
+      setInfo: exerciseSetDrafts.value[workoutExercise.id]!,
     }))
 
   const newWorkoutSession: WorkoutSession = {
     id: Date.now(),
     workoutId: workoutId,
-    workoutName: workout.value?.name!,
+    workoutName: workout.value?.name,
     performedAt: new Date().toISOString(),
     exercises: performedExercises,
   }
-  WorkoutSessionsStore.addWorkoutSession(newWorkoutSession)
+  workoutSessionsStore.addWorkoutSession(newWorkoutSession)
 
   console.log(workoutSessions.value)
   router.push({ name: 'history' })
@@ -56,7 +59,7 @@ function handleCreateWorkoutSession() {
   <form v-if="workout" @submit.prevent="handleCreateWorkoutSession">
     <h2>You're doing {{ workout.name }}</h2>
     <ul>
-      <li v-for="exercise in workoutExercises" :key="exercise.id">
+      <li v-for="exercise in workout.workoutExercises" :key="exercise.id">
         {{ exercise.name }}
         <TextArea
           v-if="activeExercises.includes(exercise.id)"

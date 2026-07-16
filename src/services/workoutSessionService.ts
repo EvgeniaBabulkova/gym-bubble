@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 export async function getWorkoutSessions() {
   const { data, error } = await supabase
     .from('workout_sessions')
-    .select('*')
+    .select('*, performed_exercises (*)')
     .order('performed_at', { ascending: false })
 
   if (error) {
@@ -20,9 +20,11 @@ export async function getWorkoutSessions() {
       workoutId: session.workout_id,
       workoutName: session.workout_name,
       performedAt: session.performed_at,
-
-      // i'll populate this later..
-      exercises: [],
+      exercises: session.performed_exercises.map((performedExercise) => ({
+        exerciseId: performedExercise.exercise_id,
+        exerciseName: performedExercise.exercise_name,
+        setInfo: performedExercise.set_info,
+      })),
     })) ?? []
   )
 }

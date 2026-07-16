@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import Button from '@/components/UI/Button.vue'
-import { useWorkoutById } from '@/composables/useWorkoutById'
+import { useWorkoutStore } from '@/stores/workouts'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 const workoutId = Number(route.params.workoutId)
-const { workout, workoutExercises } = useWorkoutById(workoutId)
+const workoutStore = useWorkoutStore()
+onMounted(() => workoutStore.fetchWorkouts())
+const workout = computed(() => workoutStore.getWorkoutById(workoutId))
 
 function startWorkoutSession() {
   router.push({
@@ -23,7 +26,9 @@ function startWorkoutSession() {
     <h3>{{ workout.name }}</h3>
     <p>{{ workout.description }}</p>
     <ul>
-      <li v-for="exercise in workoutExercises" :key="exercise.id">{{ exercise.name }}</li>
+      <li v-for="workoutExercise in workout.workoutExercises" :key="workoutExercise.id">
+        {{ workoutExercise.name }}
+      </li>
     </ul>
     <Button @click="startWorkoutSession">Start workoutt!!</Button>
   </section>

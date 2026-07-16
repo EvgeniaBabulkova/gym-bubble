@@ -2,16 +2,17 @@
 import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
 import ExerciseCard from '@/components/ExerciseCard.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
-import { exercises } from '@/data/exercises'
-import { workoutss } from '@/data/workouts'
+import { useExerciseStore } from '@/stores/exercises'
 import { useWorkoutStore } from '@/stores/workouts'
 import type { CreateWorkoutInput, Workout } from '@/types/workouts'
 import { onMounted } from 'vue'
 
 const workoutStore = useWorkoutStore()
+const exerciseStore = useExerciseStore()
 
 onMounted(() => {
   workoutStore.fetchWorkouts()
+  exerciseStore.fetchExercises()
 })
 
 function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
@@ -35,7 +36,7 @@ function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
     </ul>
     <h2>Exercises:</h2>
     <ul class="exercisesList">
-      <li v-for="exercise in exercises">
+      <li v-for="exercise in exerciseStore.exercises">
         <ExerciseCard :exercise="exercise" />
       </li>
     </ul>

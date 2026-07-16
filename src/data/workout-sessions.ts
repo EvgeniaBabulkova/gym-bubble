@@ -11,12 +11,12 @@ const workoutSessionsMock: WorkoutSession[] = [
       {
         exerciseId: 2,
         exerciseName: 'Leg Press',
-        setNotes: '20, 30, 40',
+        setInfo: '20, 30, 40',
       },
       {
         exerciseId: 3,
         exerciseName: 'Leg Curl',
-        setNotes: '33, 46, 46',
+        setInfo: '33, 46, 46',
       },
     ],
   },

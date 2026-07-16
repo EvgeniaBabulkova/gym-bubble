@@ -1,14 +1,12 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getWorkouts } from '../services/workoutService'
 import type { Workout } from '@/types/workouts'
+import { useLoadingState } from '@/composables/useLoadingState'
 
 export const useWorkoutStore = defineStore('workouts', () => {
   const workouts = ref<Workout[]>([])
-
-  const isLoading = ref(false)
-  const hasLoaded = ref(false)
-  const error = ref<string | null>(null)
+  const { isLoading, hasLoaded, error } = useLoadingState()
 
   async function fetchWorkouts() {
     if (hasLoaded.value || isLoading.value) {

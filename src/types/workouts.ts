@@ -37,8 +37,7 @@ export type Exercise = {
   // equipment: Equipment
 }
 
-type WorkoutExrcise = {
-  exercise: Exercise
+export type WorkoutExercise = Exercise & {
   orderIndex: number
 }
 
@@ -46,7 +45,7 @@ export type Workout = {
   id: number
   name: string
   description?: string
-  exercises: WorkoutExrcise[]
+  workoutExercises: WorkoutExercise[]
 }
 
 export type CreateWorkoutInput = {
@@ -60,7 +59,7 @@ export type CreateWorkoutInput = {
 type PerformedExercises = {
   exerciseId: number
   exerciseName: string
-  setNotes: string
+  setInfo: string
 }
 
 export type WorkoutSession = {

@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { exercises } from '@/data/exercises'
+import { onMounted, reactive } from 'vue'
 import type { CreateWorkoutInput } from '@/types/workouts'
 import { ref } from 'vue'
 import Button from './UI/Button.vue'
 import InputFIeld from './UI/InputFIeld.vue'
 import TextArea from './UI/TextArea.vue'
+import { useExerciseStore } from '@/stores/exercises.ts'
 
 const emit = defineEmits<{
   createWorkout: [workout: CreateWorkoutInput]
 }>()
+
+const exerciseStore = useExerciseStore()
+const error = ref('')
+
+onMounted(async () => {
+  exerciseStore.fetchExercises()
+})
 
 const workoutForm = reactive<CreateWorkoutInput>({
   name: '',
   description: '',
   exerciseIds: [],
 })
-const error = ref('')
 
 function onWorkoutSubmit() {
   // 1. create a data object from the user data
@@ -53,7 +59,7 @@ function onWorkoutSubmit() {
     />
 
     <label for="exercises">Choose exercises</label>
-    <label v-for="exercise in exercises" :key="exercise.id">
+    <label v-for="exercise in exerciseStore.exercises" :key="exercise.id">
       <input type="checkbox" v-model="workoutForm.exerciseIds" :value="exercise.id" />
       {{ exercise.name }}
     </label>

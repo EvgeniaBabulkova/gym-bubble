@@ -12,21 +12,20 @@ export async function getWorkouts() {
   }
   return (
     // todo: check PostgreSQL Views Strategy
+    // todo: later extract mappings for reuse
     data.map((workout) => ({
       id: workout.workout_id,
       name: workout.name,
       description: workout.description ?? undefined,
 
-      exercises: workout.workout_exercises
+      workoutExercises: workout.workout_exercises
         .map((workoutExercise) => ({
-          exercise: {
-            id: workoutExercise.exercises.exercise_id,
-            name: workoutExercise.exercises.name,
-            description: workoutExercise.exercises.description ?? '',
-            muscleGroups: workoutExercise.exercises.exercise_muscle_groups.map(
-              (exerciseMuscleGroup) => exerciseMuscleGroup.muscle_groups.name as MuscleGroup,
-            ),
-          },
+          id: workoutExercise.exercises.exercise_id,
+          name: workoutExercise.exercises.name,
+          description: workoutExercise.exercises.description ?? '',
+          muscleGroups: workoutExercise.exercises.exercise_muscle_groups.map(
+            (exerciseMuscleGroup) => exerciseMuscleGroup.muscle_groups.name as MuscleGroup,
+          ),
           orderIndex: workoutExercise.order_index,
         }))
         .sort(
