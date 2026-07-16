@@ -7,8 +7,13 @@ import InputFIeld from './UI/InputFIeld.vue'
 import TextArea from './UI/TextArea.vue'
 import { useExerciseStore } from '@/stores/exercises.ts'
 
+defineProps<{
+  isSubmitting?: boolean
+}>()
+
 const emit = defineEmits<{
   createWorkout: [workout: CreateWorkoutInput]
+  cancel: []
 }>()
 
 const exerciseStore = useExerciseStore()
@@ -24,33 +29,36 @@ const workoutForm = reactive<CreateWorkoutInput>({
   exerciseIds: [],
 })
 
+function resetForm() {
+  workoutForm.name = ''
+  workoutForm.description = ''
+  workoutForm.exerciseIds = []
+  error.value = ''
+}
+
 function onWorkoutSubmit() {
-  // 1. create a data object from the user data
-  // 2. pass it in an emit
-  // 3. clear the inputs
-
-  if (workoutForm.name.trim() && workoutForm.exerciseIds.length > 0) {
-    error.value = ''
-    const newWorkout = {
-      name: workoutForm.name.trim(),
-      description: workoutForm.description.trim(),
-      exerciseIds: workoutForm.exerciseIds,
-    }
-    emit('createWorkout', newWorkout)
-
-    workoutForm.name = ''
-    workoutForm.description = ''
-    workoutForm.exerciseIds = []
-  } else {
-    error.value = 'Make suuure to have name and exercises selected!'
+  if (!workoutForm.name.trim() || workoutForm.exerciseIds.length === 0) {
+    error.value = 'Add workout name and select at leeeeeast one exercise!'
+    return
   }
+  error.value = ''
+
+  const newWorkout = {
+    name: workoutForm.name.trim(),
+    description: workoutForm.description.trim(),
+    exerciseIds: [...workoutForm.exerciseIds],
+  }
+  emit('createWorkout', newWorkout)
+}
+
+function handleCancel() {
+  resetForm()
+  emit('cancel')
 }
 </script>
 
 <template>
   <form class="workoutForm" @submit.prevent="onWorkoutSubmit">
-    <h2>Create a workout:</h2>
-
     <InputFIeld label="Name" placeholder="E.g. Upper body day" v-model.trim="workoutForm.name" />
     <TextArea
       label="Description"
@@ -58,34 +66,59 @@ function onWorkoutSubmit() {
       v-model="workoutForm.description"
       :rows="5"
     />
+    <fieldset class="exerciseSelection">
+      <legend>Choose exercises</legend>
+      <label v-for="exercise in exerciseStore.exercises" :key="exercise.id" class="exerciseOption">
+        <input v-model="workoutForm.exerciseIds" type="checkbox" :value="exercise.id" />
+        <span>{{ exercise.name }}</span>
+      </label>
+    </fieldset>
 
-    <label for="exercises">Choose exercises</label>
-    <label v-for="exercise in exerciseStore.exercises" :key="exercise.id">
-      <input type="checkbox" v-model="workoutForm.exerciseIds" :value="exercise.id" />
-      {{ exercise.name }}
-    </label>
+    <p v-if="error" class="errorMessage">{{ error }}</p>
 
-    <p>{{ error }}</p>
-    <Button type="submit">Submitt</Button>
+    <div class="formActions">
+      <Button type="button" variant="secondary" :disabled="isSubmitting" @click="handleCancel">
+        Cancel
+      </Button>
+      <Button type="submit" :disabled="isSubmitting">
+        {{ isSubmitting ? 'Creating...' : 'Create workout' }}
+      </Button>
+    </div>
   </form>
 </template>
 
 <style scoped>
-/* remove  */
-.input {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-p {
-  color: var(--col-error);
-}
-
 .workoutForm {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  gap: var(--spacing-lg);
+}
+
+.exerciseSelection {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-md);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.exerciseOption {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.errorMessage {
+  margin: 0;
+  color: var(--col-error);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
 </style>
