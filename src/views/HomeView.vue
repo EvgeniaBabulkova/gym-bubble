@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import CreateWorkoutForm from '@/components/CreateWorkoutForm.vue'
-import ExerciseCard from '@/components/ExerciseCard.vue'
 import Button from '@/components/UI/Button.vue'
 import Modal from '@/components/UI/Modal.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
@@ -11,7 +10,6 @@ import { ref, onMounted } from 'vue'
 
 const workoutStore = useWorkoutStore()
 const exerciseStore = useExerciseStore()
-
 const isCreateWorkoutDialogOpen = ref(false)
 
 onMounted(() => {
@@ -19,7 +17,7 @@ onMounted(() => {
   exerciseStore.fetchExercises()
 })
 
-function openCreateWorkoutDialog() {
+function openCreateWorkoutModal() {
   isCreateWorkoutDialogOpen.value = true
 }
 
@@ -36,10 +34,11 @@ async function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
 
 <template>
   <div class="mainContainer">
+    <h1>Hi Ev</h1>
     <section>
-      <header class="sectionHeader">
-        <h1>Your workouts</h1>
-        <Button @click="openCreateWorkoutDialog"> + </Button>
+      <header>
+        <h2>Your workouts</h2>
+        <Button @click="openCreateWorkoutModal"> + </Button>
       </header>
       <ul class="workoutsList">
         <li v-for="workout in workoutStore.workouts" :key="workout.id">
@@ -48,14 +47,14 @@ async function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
       </ul>
     </section>
 
-    <section>
+    <!-- <section>
       <h2>Exercises</h2>
       <ul class="exercisesList">
         <li v-for="exercise in exerciseStore.exercises" :key="exercise.id">
           <ExerciseCard :exercise="exercise" />
         </li>
       </ul>
-    </section>
+    </section> -->
 
     <Modal
       :open="isCreateWorkoutDialogOpen"
@@ -75,6 +74,15 @@ async function handleCreateWorkout(workoutInput: CreateWorkoutInput) {
 </template>
 
 <style scoped>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+}
 .mainContainer {
   display: flex;
   flex-direction: column;

@@ -17,6 +17,7 @@ button {
   width: fit-content;
   font: var(--font-button);
   color: var(--col-text-invert);
+  cursor: pointer;
 }
 
 .buttonSecondary {

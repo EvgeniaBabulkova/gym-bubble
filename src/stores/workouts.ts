@@ -31,7 +31,7 @@ export const useWorkoutStore = defineStore('workouts', () => {
 
     try {
       const createdWorkout = await createWorkout(workoutInput)
-      workouts.value.push(createdWorkout)
+      workouts.value.unshift(createdWorkout)
     } catch (postError) {
       error.value = postError instanceof Error ? postError.message : 'Failed to create workooout.'
     } finally {

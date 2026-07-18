@@ -2,7 +2,6 @@
 
 #app {
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
   min-height: 100vh;
 }
@@ -11,6 +10,12 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg) var(--spacing-xxl);
 }
 
 body {
