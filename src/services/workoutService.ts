@@ -2,11 +2,13 @@ import { supabase } from '@/lib/supabase'
 import type { CreateWorkoutInput, MuscleGroup } from '@/types/workouts'
 
 export async function getWorkouts() {
-  const { data, error } = await supabase.from('workouts').select(` *,
-      workout_exercises ( *,
-        exercises ( *, exercise_muscle_groups ( muscle_groups ( name ) ) )
-      )
-    `)
+  const { data, error } = await supabase
+    .from('workouts')
+    .select(
+      ` *,
+      workout_exercises ( *, exercises ( *, exercise_muscle_groups ( muscle_groups ( name ))))`,
+    )
+    .order('workout_id', { ascending: false })
   if (error) throw error
   return (
     // todo: check PostgreSQL Views Strategy

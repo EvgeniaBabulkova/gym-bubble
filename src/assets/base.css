@@ -1,19 +1,28 @@
 :root {
-  font-family: ' Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-family-display: 'Poppins', 'Segoe UI', sans-serif;
+  --font-family-body: 'Inter', 'Segoe UI', sans-serif;
 
-  --col-text-primary: #fafff8;
-  --col-text-secondary: #edb337;
-  --col-text-invert: #242424;
-  --col-text-details: #5b605a;
+  --col-text-primary: #f5f4fa;
+  --col-text-secondary: #c8f553;
+  --col-text-invert: #100f1a;
+  --col-text-details: #8e8ca6;
 
-  --col-surface-primary: #121212;
-  --col-surface-secondary: #292a26;
-  --col-surface-tertiary: #1a2012;
-  --col-surface-invert: #fafff8;
+  --col-surface-primary: #100f1a;
+  --col-surface-secondary: #1b1930;
+  --col-surface-tertiary: #242140;
+  --col-surface-invert: #f5f4fa;
+  --col-surface-hairline: #2a2840; /* for borders */
 
-  --col-graph: #324319;
-  --col-graph-1: #edb337;
-  --col-graph-2: #f2542d;
+  /* accent */
+  --col-accent-lime: #c8f553;
+  --col-accent-lime-tint: #2a331a;
+  --col-accent-coral: #ff5c8a;
+  --col-accent-coral-tint: #3a1e29;
+
+  /* graph */
+  --col-graph: #23261a;
+  --col-graph-1: #c8f553;
+  --col-graph-2: #ff5c8a;
 
   --col-success: #63d0a1;
   --col-error: #fe9f9f;
@@ -22,8 +31,10 @@
   --overlay: rgba(0, 0, 0, 0.9);
 
   /* border */
-  --border-radius: 16px;
-  --border-radius-full: 100px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 14px;
+  --border-radius-lg: 20px;
+  --border-radius-full: 999px;
 
   /* spacing */
   --spacing-xs: 4px;
@@ -35,16 +46,24 @@
   --spacing-3xl: 56px;
 
   /* composite fonts */
-  --font-h1: 700 36px Tahoma;
-  --font-h2: 500 28px Tahoma;
-  --font-h3: 500 24px Tahoma;
-  --font-h4: 500 20px Tahoma;
+  --font-h1: 700 36px var(--font-family-display);
+  --font-h2: 600 28px var(--font-family-display);
+  --font-h3: 600 24px var(--font-family-display);
+  --font-h4: 600 20px var(--font-family-display);
 
-  --font-body-1: 400 16px Tahoma;
-  --font-bodyStd: 200 14px Tahoma; /* standard */
-  --font-body-3: 200 12px Tahoma;
+  --font-body-1: 400 16px var(--font-family-body);
+  --font-bodyStd: 400 14px var(--font-family-body);
+  --font-body-3: 400 12px var(--font-family-body);
 
-  --font-button: 600 16px Tahoma;
-  --font-label: 300 16px Tahoma;
-  --font-chip: 300 14px Tahoma;
+  --font-button: 600 16px var(--font-family-display);
+  --font-label: 500 14px var(--font-family-body);
+  --font-chip: 500 12px var(--font-family-body);
+
+  /* data — Inter + tabular-nums, applied via the class below */
+  --font-data: 700 16px var(--font-family-body);
+}
+
+.fontData {
+  font: var(--font-data);
+  font-variant-numeric: tabular-nums;
 }

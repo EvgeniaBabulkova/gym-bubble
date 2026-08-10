@@ -3,7 +3,7 @@
 <template>
   <header>
     <RouterLink to="/" class="logoLink">
-      <img alt="Bym Bubble logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />
+      <img alt="Bym Bubble logo" class="logo" src="@/assets/logo-dark.svg" width="40" height="40" />
     </RouterLink>
     <nav>
       <RouterLink to="/history">History</RouterLink>

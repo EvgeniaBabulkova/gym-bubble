@@ -21,6 +21,7 @@ main {
 body {
   color: var(--col-text-primary);
   background: var(--col-surface-primary);
+  font: var(--font-bodyStd);
 }
 
 h1 {
