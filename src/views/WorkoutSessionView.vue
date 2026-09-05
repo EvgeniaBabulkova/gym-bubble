@@ -4,7 +4,7 @@ import TextArea from '@/components/UI/TextArea.vue'
 import { workoutSessions } from '@/data/workout-sessions'
 import { useWorkoutStore } from '@/stores/workouts'
 import { useWorkoutSessionsStore } from '@/stores/workoutSessions'
-import type { CreateWorkoutSessionInput, WorkoutSession } from '@/types/workouts'
+import type { CreateWorkoutSessionInput } from '@/types/workouts'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -37,13 +37,11 @@ async function handleCreateWorkoutSession() {
     .filter((workoutExercise) => exerciseSetDrafts.value[workoutExercise.id]?.trim())
     .map((workoutExercise) => ({
       exerciseId: workoutExercise.id,
-      exerciseName: workoutExercise.name,
       setInfo: exerciseSetDrafts.value[workoutExercise.id]!.trim(),
     }))
 
   const newWorkoutSession: CreateWorkoutSessionInput = {
     workoutId,
-    workoutName: workout.value?.name,
     performedAt: new Date().toISOString(),
     exercises: performedExercises,
   }

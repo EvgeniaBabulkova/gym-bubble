@@ -39,6 +39,7 @@ export const useWorkoutSessionsStore = defineStore('workoutSessions', () => {
       workoutSessions.value.unshift(createdWorkoutSession)
       return createdWorkoutSession
     } catch (postError) {
+      console.error('Failed to create workout session:', postError)
       error.value =
         postError instanceof Error ? postError.message : 'Failed to create workout session.'
       return null

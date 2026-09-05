@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
-import type { CreateWorkoutInput, MuscleGroup } from '@/types/workouts'
+import { mapWorkout } from '@/utils/mappers'
+import type { CreateWorkoutInput } from '@/types/workouts'
 
 export async function getWorkouts() {
   const { data, error } = await supabase
@@ -10,30 +11,7 @@ export async function getWorkouts() {
     )
     .order('workout_id', { ascending: false })
   if (error) throw error
-  return (
-    // todo: check PostgreSQL Views Strategy
-    // todo: later extract mappings for reuse
-    data.map((workout) => ({
-      id: workout.workout_id,
-      name: workout.name,
-      description: workout.description ?? undefined,
-
-      workoutExercises: workout.workout_exercises
-        .map((workoutExercise) => ({
-          id: workoutExercise.exercises.exercise_id,
-          name: workoutExercise.exercises.name,
-          description: workoutExercise.exercises.description ?? '',
-          muscleGroups: workoutExercise.exercises.exercise_muscle_groups.map(
-            (exerciseMuscleGroup) => exerciseMuscleGroup.muscle_groups.name as MuscleGroup,
-          ),
-          orderIndex: workoutExercise.order_index,
-        }))
-        .sort(
-          (firstWorkoutExercise, secondWorkoutExercise) =>
-            firstWorkoutExercise.orderIndex - secondWorkoutExercise.orderIndex,
-        ),
-    })) ?? []
-  )
+  return data.map(mapWorkout)
 }
 
 export async function getWorkoutById(workoutId: number) {
@@ -46,25 +24,7 @@ export async function getWorkoutById(workoutId: number) {
     .single()
 
   if (error) throw error
-  return {
-    id: data.workout_id,
-    name: data.name,
-    description: data.description ?? undefined,
-    workoutExercises: data.workout_exercises
-      .map((workoutExercise) => ({
-        id: workoutExercise.exercises.exercise_id,
-        name: workoutExercise.exercises.name,
-        description: workoutExercise.exercises.description ?? '',
-        muscleGroups: workoutExercise.exercises.exercise_muscle_groups.map(
-          (exerciseMuscleGroup) => exerciseMuscleGroup.muscle_groups.name as MuscleGroup,
-        ),
-        orderIndex: workoutExercise.order_index,
-      }))
-      .sort(
-        (firstWorkoutExercise, secondWorkoutExercise) =>
-          firstWorkoutExercise.orderIndex - secondWorkoutExercise.orderIndex,
-      ),
-  }
+  return mapWorkout(data)
 }
 
 export async function createWorkout(workoutInput: CreateWorkoutInput) {

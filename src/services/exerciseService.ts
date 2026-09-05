@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import type { MuscleGroup } from '@/types/workouts'
+import { mapExercise } from '@/utils/mappers'
 
 export async function getExercises() {
   const { data, error } = await supabase.from('exercises').select(`
@@ -11,14 +11,5 @@ export async function getExercises() {
     throw error
   }
 
-  return (
-    data?.map((exercise) => ({
-      id: exercise.exercise_id,
-      name: exercise.name,
-      description: exercise.description ?? '',
-      muscleGroups: exercise.exercise_muscle_groups.map(
-        (exerciseMuscleGroup) => exerciseMuscleGroup.muscle_groups.name as MuscleGroup,
-      ),
-    })) ?? []
-  )
+  return data?.map(mapExercise) ?? []
 }

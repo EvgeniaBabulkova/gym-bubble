@@ -56,7 +56,7 @@ export type CreateWorkoutInput = {
 
 // workout sessions -------------------------------------
 
-type PerformedExercises = {
+export type PerformedExercise = {
   exerciseId: number
   exerciseName: string
   setInfo: string
@@ -64,9 +64,11 @@ type PerformedExercises = {
 
 export type CreateWorkoutSessionInput = {
   workoutId: number
-  workoutName: string
   performedAt: string
-  exercises: PerformedExercises[]
+  exercises: {
+    exerciseId: number
+    setInfo: string
+  }[]
 }
 
 export type WorkoutSession = {
@@ -74,5 +76,5 @@ export type WorkoutSession = {
   workoutId: number
   workoutName: string
   performedAt: string
-  exercises: PerformedExercises[]
+  exercises: PerformedExercise[]
 }
